@@ -26,7 +26,7 @@ The RPM:
    moves to `/lib/modutils-2.0`, and `/sbin/insmod`, `modprobe`, `rmmod`, `lsmod`, `depmod`, `ksyms` become a small
    dispatcher that picks one or the other by `uname -r`. **With 2.0.35 nothing changes** (kerneld included).
 3. Renames `/etc/conf.modules` to `/etc/modules.conf` (modutils 2.4's name) and leaves a link with the old name.
-4. Adds a `linux24` entry to `/etc/lilo.conf` (same root as `/`) with `append="nopentium"` and runs `lilo`.
+4. Adds a `linux24` entry to `/etc/lilo.conf` (same root as `/`, with `append="nopentium"` as a precaution, see Known issues) and runs `lilo`.
 
 `rpm -e k_retro24` undoes all of it.
 
@@ -78,9 +78,12 @@ Not tested yet: real hardware. Reports welcome.
 
 ## Known issues
 
-- **`nopentium`**: with more than 896 MB of RAM (highmem) this 486 build panics early —
-  `Bad pmd in pte_alloc: 400000e7` / `Kernel panic: Failed to allocate buffer hash table` — when it maps memory
-  with 4 MB pages. `nopentium` turns those off; with 896 MB or less it is not needed. The RPM's LILO entry has it.
+- **A rare early panic with 2 GB of RAM**: `Bad pmd in pte_alloc: 400000e7` / `Kernel panic: Failed to allocate
+  buffer hash table`. Seen 3 times in about 19 boots of the restore CD in a VM with 2 GB; a reboot boots normally.
+  I could not reproduce it on demand (16 boots in a row were fine, with and without `nopentium`, after config
+  changes and under screen capture), so the cause is still open. The RPM's LILO entry carries
+  `append="nopentium"` as a precaution, but it is **not** proven to be the fix. If you hit it on real hardware,
+  please open an issue with the RAM size and the BIOS.
 - SuSE's `modules.conf` ships `alias net-pf-5 off` (AppleTalk off). Change it to `appletalk` if you use netatalk.
 - `kmod: failed to exec /sbin/modprobe ... parport_lowlevel` at boot happens before the root is mounted; harmless.
 - On 2.4 the local network route is added automatically, so `/etc/route.conf` may print `File exists`.
