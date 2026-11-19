@@ -1,0 +1,13 @@
+--- linux-2.4.37.11.orig/drivers/scsi/ahci.c	2010-12-18 09:29:59.000000000 -0600
++++ linux-2.4.37.11/drivers/scsi/ahci.c	2026-11-18 16:38:15.649780739 -0600
+@@ -491,6 +491,10 @@
+ 	{ PCI_VENDOR_ID_SI, 0x1186, PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+ 	  board_ahci },		/* SiS 968 */
+ 
++	/* retroblog: cualquier controlador AHCI por clase PCI (01.06.01), como en 2.6 */
++	{ PCI_ANY_ID, PCI_ANY_ID, PCI_ANY_ID, PCI_ANY_ID,
++	  0x010601, 0xffffff, board_ahci },
++
+ 	{ }	/* terminate list */
+ };
+ 
