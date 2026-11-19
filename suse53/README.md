@@ -8,7 +8,7 @@
 ![CPU 486+](https://img.shields.io/badge/CPU-486%2B-orange)
 ![License GPL](https://img.shields.io/badge/license-GPL--2.0-yellow)
 
-📦 **Download:** `k_retro24-2.4.37.11-2.i386.rpm` (and the sources) in the [release](../../../releases/tag/suse53-k_retro24-2.4.37.11-2).
+📦 **Download:** `k_retro24-2.4.37.11-2.i386.rpm`, the YaST add-on CD `k_retro24-2.4.37.11-2-cd.iso` and the sources in the [release](../../../releases/tag/suse53-k_retro24-2.4.37.11-2).
 
 ![KDE 1.0 with the VESA driver on Linux 2.4.37.11-retro](doc/01-kde-vesa-kernel24.png)
 
@@ -29,6 +29,18 @@ The RPM:
 4. Adds a `linux24` entry to `/etc/lilo.conf` (same root as `/`) with `append="nopentium"` and runs `lilo`.
 
 `rpm -e k_retro24` undoes all of it.
+
+### Add-on CD for YaST
+
+`k_retro24-2.4.37.11-2-cd.iso` (7.7 MB) is a CD that YaST 0.97 accepts as its installation medium: it only lists
+`k_retro24`, in its own series `kret`. Attach it (or burn it), then `yast` → *Choose/Install packages* →
+*Change/create configuration* → series `kret` → mark `k_retro24` → F10 → *Start installation*. Built with
+[`cd/armar_cd.sh`](cd/armar_cd.sh), which writes the catalog YaST looks for (`.pkd`, `.ser`, the file list and the
+`/.S.u.S.E-disk-001` marker); no SuSE files inside.
+
+| | | |
+|---|---|---|
+| ![YaST: series kret](doc/04-yast-serie-kret.png) | ![YaST: k_retro24 marked](doc/05-yast-k_retro24-marcado.png) | ![YaST: installed](doc/06-yast-instalado.png) |
 
 ## What is inside
 
@@ -57,6 +69,7 @@ In virtual machines (Proxmox/QEMU):
 | Modules | kmod loads appletalk, ipx (+ psnap, p8022); `modprobe` without warnings |
 | Same machine booting SuSE's 2.0.35 after installing | unchanged: kerneld, `ne` module, old modutils |
 | `rpm -e` / upgrade from `-1` | everything restored / `nopentium` added |
+| Install from the add-on CD with YaST 0.97.2 | series `kret` listed, *Totally installed: 1*, LILO entry added |
 | SuSE 5.3 restored onto a **SATA (AHCI) disk, 2 GB RAM** | boots straight into 2.4.37.11-retro, ADABAS, KDE |
 
 ![KDE 1.0 on a SATA disk with 2 GB of RAM](doc/03-kde-sata-2gb.png)
