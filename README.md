@@ -3,6 +3,8 @@
 **Newer kernels for old SuSE Linux releases — so 1998–2001 SuSE runs on PCs with GBs of RAM, DMA and SATA.**
 Kernels más nuevos para SuSE Linux de los 90: para que corran en PCs con GBs de RAM, DMA y SATA.
 
+📖 The story: **[A 2.4 kernel for SuSE Linux 5.3](https://www.canaldelasrecetas.com/cms/retro-suse53-kernel24-en/)** · **[Un kernel 2.4 para SuSE Linux 5.3](https://www.canaldelasrecetas.com/cms/retro-suse53-kernel24-es/)**
+
 Each SuSE release gets its own folder: a kernel built for it, packaged as an RPM that installs **next to** the
 original kernel (the old one stays as the default boot entry), plus the module tools it needs and the full recipe.
 
