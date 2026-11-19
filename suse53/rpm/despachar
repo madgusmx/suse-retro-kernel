@@ -1,0 +1,11 @@
+#!/bin/sh
+# despachar - modutils para dos kernels en SuSE Linux 5.3 (k_retro24, retroblog).
+# /sbin/insmod, modprobe, rmmod, lsmod, depmod, ksyms, modinfo y kallsyms apuntan aqui:
+#   Linux 2.4.x -> modutils 2.4.27  (/lib/modutils-2.4)
+#   Linux 2.0.x -> modules 2.1.85 de SuSE (/lib/modutils-2.0, con los mismos nombres: su insmod elige por argv[0])
+p=`basename $0`
+case `uname -r` in
+    2.4.*) exec /lib/modutils-2.4/$p "$@" ;;
+esac
+if [ -x /lib/modutils-2.0/$p ]; then exec /lib/modutils-2.0/$p "$@"; fi
+exec /lib/modutils-2.4/$p "$@"

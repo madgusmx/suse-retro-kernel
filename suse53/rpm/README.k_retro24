@@ -1,0 +1,56 @@
+k_retro24 - Linux 2.4.37.11-retro para SuSE Linux 5.3 (retroblog)
+====================================================================
+
+Que trae
+--------
+/boot/vmlinuz-2.4.37.11-retro   el kernel (bzImage, compilado para 486)
+/boot/System.map-2.4.37.11-retro, /boot/config-2.4.37.11-retro
+/lib/modules/2.4.37.11-retro    541 modulos
+/lib/modutils-2.4               modutils 2.4.27 (compilado en SuSE 5.3, libc5) y el despachador
+
+Al instalar
+-----------
+1. Los modutils de SuSE (paquete modules-2.1.85) pasan a /lib/modutils-2.0 y /sbin/insmod, modprobe, rmmod,
+   lsmod, depmod, ksyms, modinfo y kallsyms apuntan a /lib/modutils-2.4/despachar, que usa uno u otro segun el
+   kernel que corre. El kernel 2.0.35 de SuSE sigue funcionando igual (con kerneld).
+2. depmod -a para 2.4.37.11-retro.
+3. Se agrega a /etc/lilo.conf la entrada «linux24» (misma raiz que / en /etc/fstab) y se corre lilo.
+   La imagen por defecto no cambia: escribe linux24 en el prompt de LILO, o pon esa entrada primera.
+   La entrada lleva append="nopentium": con mas de 896 MB de RAM (highmem) este kernel compilado para 486
+   entra en panico al usar paginas de 4 MB («Bad pmd in pte_alloc ... Failed to allocate buffer hash
+   table»). Sin ellas arranca igual en cualquier PC; con 896 MB o menos no hace falta.
+Al desinstalar (rpm -e k_retro24) se deshace todo.
+
+Dentro del kernel (sin modulos)
+-------------------------------
+IDE con DMA automatico (PIIX, VIA, AMD, SiS, ALi, Promise, HPT, CMD, ServerWorks, SiI...), ide-cd, ide-scsi.
+SATA por libata: AHCI (cualquier controlador por clase PCI 01.06.01, parche del retroblog), PIIX/ICH, VIA, SiS,
+NVIDIA, Promise, SiI, ULi, ServerWorks. SCSI: discos, CD (sr) y genericos (sg); BusLogic, sym53c8xx, aic7xxx.
+ext2, ext3, iso9660 (Joliet, zisofs), UDF, FAT/VFAT, proc, devpts, tmpfs, NFS. Red: NE2000 (PCI e ISA), RTL8139,
+e100, e1000, PCnet32, tulip, VIA Rhine, 3c59x, PPP. USB (UHCI, OHCI, EHCI) con teclado, raton y almacenamiento.
+a.out y ELF, SysV IPC (lo usa ADABAS), APM, RTC, puerto paralelo. Sin framebuffer: X usa el driver VESA o el
+de la tarjeta, como con 2.0.
+
+Grabar CDs
+----------
+IDE/ATAPI: en el prompt de LILO «linux24 hdc=ide-scsi» (o hdb, hdd...) y cdrecord -scanbus.
+SATA: directo (libata), sin parametros.
+
+Notas
+-----
+- kmod carga los modulos solo (modprobe -> despachador -> modutils 2.4). El /etc/modules.conf de SuSE trae
+  «alias net-pf-5 off» (AppleTalk apagado): para netatalk cambialo a «alias net-pf-5 appletalk».
+  IPX: modprobe ipx (o lo pide mars_nwe).
+- /etc/conf.modules pasa a llamarse /etc/modules.conf (el nombre de modutils 2.4) y queda un enlace con el
+  nombre viejo para el modules 2.1.85. rpm -e lo deja como estaba.
+- El aviso de arranque «kmod: failed to exec /sbin/modprobe ... parport_lowlevel» sale antes de montar la raiz;
+  no pasa nada (parport_pc esta dentro del kernel).
+- Sonido: modulos OSS (sb, es1370, es1371, i810_audio...). Para la SB de ISA: modprobe sb io=0x220 irq=5 dma=1 dma16=5
+- Con 2.4 la ruta de la red local se agrega sola: /etc/route.conf puede decir «File exists», no pasa nada.
+
+Compilacion
+-----------
+Con gcc 3.3.5 de Debian sarge (el gcc 2.7.2.1 de SuSE 5.3 no compila Linux 2.4), en un chroot. Las fuentes del
+retroblog (parche AHCI, configuracion, guiones) van en kernel-retro24-fuentes.tar.gz; el kernel es el tarball
+firmado de kernel.org: https://cdn.kernel.org/pub/linux/kernel/v2.4/linux-2.4.37.11.tar.xz
+https://github.com/madgusmx/xf86vesa
