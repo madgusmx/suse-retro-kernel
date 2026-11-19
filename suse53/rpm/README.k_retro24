@@ -16,9 +16,9 @@ Al instalar
 2. depmod -a para 2.4.37.11-retro.
 3. Se agrega a /etc/lilo.conf la entrada «linux24» (misma raiz que / en /etc/fstab) y se corre lilo.
    La imagen por defecto no cambia: escribe linux24 en el prompt de LILO, o pon esa entrada primera.
-   La entrada lleva append="nopentium": con mas de 896 MB de RAM (highmem) este kernel compilado para 486
-   entra en panico al usar paginas de 4 MB («Bad pmd in pte_alloc ... Failed to allocate buffer hash
-   table»). Sin ellas arranca igual en cualquier PC; con 896 MB o menos no hace falta.
+   La entrada lleva append="nopentium" por precaucion: con 2 GB de RAM se vio 3 veces (en ~19 arranques)
+   un panico temprano («Bad pmd in pte_alloc ... Failed to allocate buffer hash table»); reiniciando arranca.
+   No se pudo reproducir a voluntad y nopentium no demostro ser la causa: sigue abierto.
 Al desinstalar (rpm -e k_retro24) se deshace todo.
 
 Dentro del kernel (sin modulos)
