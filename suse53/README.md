@@ -8,6 +8,8 @@
 ![CPU 486+](https://img.shields.io/badge/CPU-486%2B-orange)
 ![License GPL](https://img.shields.io/badge/license-GPL--2.0-yellow)
 
+📖 The story: **[A 2.4 kernel for SuSE Linux 5.3](https://www.canaldelasrecetas.com/cms/retro-suse53-kernel24-en/)** · **[Un kernel 2.4 para SuSE Linux 5.3](https://www.canaldelasrecetas.com/cms/retro-suse53-kernel24-es/)**
+
 📦 **Download:** `k_retro24-2.4.37.11-2.i386.rpm`, the YaST add-on CD `k_retro24-2.4.37.11-2-cd.iso` and the sources in the [release](../../../releases/tag/suse53-k_retro24-2.4.37.11-2).
 
 ![KDE 1.0 with the VESA driver on Linux 2.4.37.11-retro](doc/01-kde-vesa-kernel24.png)
